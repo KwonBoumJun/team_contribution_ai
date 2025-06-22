@@ -1,0 +1,20 @@
+📌 API 엔드포인트: POST /analyze/
+📌 Base URL: http://127.0.0.1:8000 (← 개발용, 배포 시 변경됨)
+
+📤 요청 방식:
+- Content-Type: multipart/form-data
+- files: 여러 개의 파일 첨부 가능
+- 허용 파일 형식: txt, pdf, hwp 등
+
+📥 응답 형식 (JSON 예시):
+{
+  "status": "success",
+  "data": {
+    "파일명": {
+      "word_count": 정수,
+      "readability": 소수점,
+      "similarity": 소수점,
+      "score": 소수점
+    }
+  }
+}

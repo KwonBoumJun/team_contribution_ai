@@ -1,0 +1,6 @@
+fastapi
+uvicorn[standard]
+textstat
+scikit-learn
+numpy
+git

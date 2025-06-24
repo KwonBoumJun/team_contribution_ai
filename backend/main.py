@@ -1,11 +1,11 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-from analyzer import score_all
 import tempfile
 import shutil
 import numpy as np
 # main.py
-from analyzer import analyze_text
+from backend.analyzer import score_all, analyze_text
+
 
 if __name__ == "__main__":
     sample_text = "여기에 테스트할 텍스트를 넣으세요."

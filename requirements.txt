@@ -4,3 +4,4 @@ textstat
 scikit-learn
 numpy
 requests
+python-multipart

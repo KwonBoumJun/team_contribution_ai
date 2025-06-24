@@ -3,3 +3,4 @@ uvicorn[standard]
 textstat
 scikit-learn
 numpy
+requests

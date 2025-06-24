@@ -1,26 +1,41 @@
-import requests  # 추가
-# language_tool_python 관련 import, tool 선언은 삭제
+#import requests  #api 보낼때
+import io
+import PyPDF2
+import pdfplumber
+import pytesseract
+from PIL import Image
+import numpy as np
 import textstat
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
+
+
+def extract_text_from_pdf(file_bytes):
+    # pdfplumber 사용
+    with pdfplumber.open(io.BytesIO(file_bytes)) as pdf:
+        texts = [page.extract_text() or "" for page in pdf.pages]
+    return "\n".join(texts)
+
+
+def extract_text_from_image(file_bytes):
+    image = Image.open(io.BytesIO(file_bytes))
+    text = pytesseract.image_to_string(image, lang='kor+eng')  # 한국어+영어 OCR
+    return text
+
 
 def analyze_text(text):
     word_count = len(text.split())
     sentence_count = text.count('.') + text.count('!') + text.count('?')
     readability = textstat.flesch_reading_ease(text)
-
-    # NaN, inf 체크 및 처리
     if readability is None or np.isnan(readability) or np.isinf(readability):
         readability = 0.0
-    
     return {
         "word_count": word_count,
         "sentence_count": sentence_count,
         "readability": readability,
     }
 
-# 2. 유사도 계산 (모든 문서 pairwise cosine similarity)
+
 def compute_similarity(texts):
     tfidf = TfidfVectorizer().fit_transform(texts)
     sim_matrix = cosine_similarity(tfidf)
@@ -40,9 +55,9 @@ def compute_similarity(texts):
 def score_all(docs):
     texts = [d['text'] for d in docs]
     names = [d['name'] for d in docs]
-    
+
     similarities = compute_similarity(texts)
-    
+
     results = {}
     for i, doc in enumerate(docs):
         info = analyze_text(doc['text'])
@@ -51,10 +66,8 @@ def score_all(docs):
             info["readability"] * 0.3 +
             (1 - similarities[i]) * 100 * 0.2
         )
-        # score NaN, inf 처리
         if np.isnan(score) or np.isinf(score):
             score = 0.0
-            
         results[names[i]] = {
             "word_count": info["word_count"],
             "readability": info["readability"],

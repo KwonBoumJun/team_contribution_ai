@@ -1,7 +1,10 @@
 fastapi
 uvicorn[standard]
+numpy
 textstat
 scikit-learn
-numpy
-requests
+pdfplumber
+PyPDF2
+pytesseract
+pillow
 python-multipart

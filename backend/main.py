@@ -47,3 +47,5 @@ async def analyze_files(files: list[UploadFile] = File(...)):
         
     result = score_all(docs)
     return {"status": "success", "data": result}
+#uvicorn main:app --reload
+#http://127.0.0.1:8000/docs

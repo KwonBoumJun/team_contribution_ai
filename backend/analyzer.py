@@ -2,7 +2,7 @@
 import io
 import PyPDF2
 import pdfplumber
-import pytesseract
+# import pytesseract
 from PIL import Image
 import numpy as np
 import textstat
@@ -17,10 +17,10 @@ def extract_text_from_pdf(file_bytes):
     return "\n".join(texts)
 
 
-def extract_text_from_image(file_bytes):
-    image = Image.open(io.BytesIO(file_bytes))
-    text = pytesseract.image_to_string(image, lang='kor+eng')  # 한국어+영어 OCR
-    return text
+# def extract_text_from_image(file_bytes):
+#     image = Image.open(io.BytesIO(file_bytes))
+#     text = pytesseract.image_to_string(image, lang='kor+eng')  # 한국어+영어 OCR
+#     return text
 
 
 def analyze_text(text):

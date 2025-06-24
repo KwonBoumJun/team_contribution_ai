@@ -1,5 +1,5 @@
 from models import AnalysisResult
-from database import engine
+from db import engine
 
 from sqlmodel import Session, select
 

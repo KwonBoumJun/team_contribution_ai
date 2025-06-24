@@ -1,6 +1,6 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-from analyzer import score_all, extract_text_from_pdf, extract_text_from_image
+from analyzer import score_all, extract_text_from_pdf#, extract_text_from_image
 from sqlmodel import SQLModel, Session, select
 from models import AnalysisResult
 import numpy as np
@@ -46,8 +46,8 @@ async def analyze_files(files: list[UploadFile] = File(...)):
         text = ""
         if filename.endswith(".pdf"):
             text = extract_text_from_pdf(contents)
-        elif filename.endswith((".jpg", ".jpeg", ".png")):
-            text = extract_text_from_image(contents)
+        # elif filename.endswith((".jpg", ".jpeg", ".png")):
+        #     text = extract_text_from_image(contents)
         else:
             try:
                 text = contents.decode("utf-8", errors="ignore")
